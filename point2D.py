@@ -12,9 +12,8 @@ class point2D:
         self.x = x
         self.y = y
 
-    def dist(self, point : object):
-        if isinstance(point, point2D):
-            return sqrt((point.x - self.x)**2 + (point.y - self.y)**2)
+    def dist(self, point : "point2D"):
+        return sqrt((point.x - self.x)**2 + (point.y - self.y)**2)
 
 def add_point_to_plot(point : point2D):
     plt.plot(point.x, point.y, marker = "o", markersize = 5, markerfacecolor="green")
@@ -43,16 +42,12 @@ def solution_id(solution : list[point2D]):
         id.append(ville.id)
     return id
 
-def voisinage(solution : list[point2D]):
-    new_solution = solution.copy()
-    a = random.randint(0,len(new_solution)-1)
-    b = random.randint(0,len(new_solution)-1)
 
-    while a == b:
-        b = random.randint(0,len(new_solution)-1)
-    
-    temp = new_solution[a]
-    new_solution[a] = new_solution[b]
-    new_solution[b] = temp
+def generate_instance(nb_ville):
+    villes  = []
+    for i in range(nb_ville):
+        x, y = random.random()*1000, random.random()*1000
+        villes.append(point2D(i, x, y))
+        add_point_to_plot(villes[-1])
 
-    return new_solution
+    return villes

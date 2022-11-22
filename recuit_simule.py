@@ -8,11 +8,22 @@ NOMBRE_DE_VILLES = 15
 T = 1000
 facteur = 0.99
 
-villes  = []
-for i in range(NOMBRE_DE_VILLES):
-    x, y = random.random()*1000, random.random()*1000
-    villes.append(p2d.point2D(i, x, y))
-    p2d.add_point_to_plot(villes[-1])
+villes = p2d.generate_instance(NOMBRE_DE_VILLES)
+
+
+def voisinage(solution : list[p2d.point2D]):
+    new_solution = solution.copy()
+    a = random.randint(0,len(new_solution)-1)
+    b = random.randint(0,len(new_solution)-1)
+
+    while a == b:
+        b = random.randint(0,len(new_solution)-1)
+    
+    temp = new_solution[a]
+    new_solution[a] = new_solution[b]
+    new_solution[b] = temp
+
+    return new_solution
 
 ### Initialisation du premier individu
 solution = villes.copy() 
@@ -27,7 +38,7 @@ for i in range(100):
     print('la ',i,'solution = ',p2d.solution_id(solution),' distance totale= ',cout0,' température actuelle =',T)
     T=T*facteur
     for j in range(50):
-        nouv_sol=p2d.voisinage(solution)
+        nouv_sol=voisinage(solution)
         cout1=p2d.cal_distance(nouv_sol)
          # print('la ',j,'ème recherche de voisinage de',solution,'donne la solution=' ,nouv_sol,' distance totale= ',cout1) 
         if cout1<cout0:
