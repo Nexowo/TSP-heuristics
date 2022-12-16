@@ -29,8 +29,57 @@ def selection(population : list[list[p2d.point2D]], nb_individus):
 
         selection.append(population[i])
 
+    return selection
+
+def croisement(indiv1 : list[p2d.point2D], indiv2 : list[p2d.point2D]):
+    i = random.randint(0, len(indiv1))
+    child_1 = [0 for _ in range(len(indiv1))]
+    child_2 = [0 for _ in range(len(indiv1))]
+    child_1[0:i] = indiv1[0:i]
+    child_2[0:i] = indiv2[0:i]
+    if i != len(child_1):
+        child_1[i+1:-1] = indiv2[i+1:-1]
+        child_2[i+1:-1] = indiv1[i+1:-1]
+    return child_1, child_2
+
+def mutation(indiv : list[p2d.point2D]):
+    i = random.randint(0, len(indiv))
+    j = random.randint(i, len(indiv))
+
+    middle = indiv[i:j]
+    middle.reverse()
+    indiv[i:j] = middle
+
+    return indiv
+
+def find_best_indiv(population:list[list[p2d.point2D]]):
+    best_indiv = population[0]
+    for i in range(1, len(population)):
+        if cal_fitness(best_indiv) < cal_fitness(population[i]):
+            best_indiv = population[i]
+    return best_indiv
 
 solution = []
-for i in range(nb_individus):
+
+for _ in range(nb_individus):
     solution.append(p2d.generate_instance(NOMBRE_DE_VILLES))
     random.shuffle(solution[-1])
+
+best_indiv = find_best_indiv(solution)
+
+for i in range(nb_generations):
+    select = selection(solution, nb_individus)
+    for j in range(int(0.8*len(select))):
+        select[j], select[j+1] = croisement(select[j],select[j+1])
+        j+=1
+
+    for j in range(int (0.2*len(select))):
+        select[-j-1] = mutation(select[-j-1])
+
+    solution = select
+    x = find_best_indiv(solution)
+    if cal_fitness(x) < cal_fitness(best_indiv):
+        best_indiv = x
+
+p2d.print_solution(solution)
+plt.show()
