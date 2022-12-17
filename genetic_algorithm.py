@@ -27,7 +27,7 @@ def selection(population : list[list[p2d.point2D]], nb_individus):
             i+=1
             probability+= cal_fitness(population[i])/sum_dist
 
-        selection.append(population[i])
+        selection.append(population[i].copy())
 
     return selection
 
