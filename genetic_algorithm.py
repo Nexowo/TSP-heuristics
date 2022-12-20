@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 import point2D as p2d
 
 # Données du problème (générées aléatoirement)
-NOMBRE_DE_VILLES = 5
+NOMBRE_DE_VILLES = 15
 
 #paramètres de l'algorithme génétique
 nb_generations = 100 # nombre de générations
@@ -12,24 +12,22 @@ nb_individus = 10 # nombre d'individu par génération
 def cal_fitness(solution : list[p2d.point2D]):
     return p2d.cal_distance(solution) #Pas de différence entre la fitness et la distance totale parcourue dans ce problème
 
-def selection(population : list[list[p2d.point2D]], nb_individus):
+def selection(population : list[list[p2d.point2D]]):
     sum_dist = 0
 
     for elem in population:
         sum_dist+=cal_fitness(elem)
 
-    selection = []
-    for _ in range(nb_individus):
-        rd = random.random()
-        probability = cal_fitness(population[0])/sum_dist
-        i = 0
-        while(rd > probability):
-            i+=1
-            probability+= cal_fitness(population[i])/sum_dist
+    
+    rd = random.random()
+    probability = cal_fitness(population[0])/sum_dist
+    i = 0
+    while(rd > probability):
+        i+=1
+        probability+= cal_fitness(population[i])/sum_dist
 
-        selection.append(population[i])
 
-    return selection
+    return population[i]
 
 def croisement(indiv1 : list[p2d.point2D], indiv2 : list[p2d.point2D]):
     i = random.randint(0, len(indiv1))
@@ -49,16 +47,16 @@ def mutation(indiv : list[p2d.point2D]):
     i = random.randint(0, len(indiv)-1)
     j = random.randint(0, len(indiv)-1)
 
-    temp = indiv[i]
-    indiv[i] = indiv[j]
-    indiv[j] = temp
+    temp = indiv[min(i,j):max(i,j)]
+    temp.reverse()
+    indiv[min(i,j):max(i,j)] = temp
 
     return indiv
 
 def find_best_indiv(population:list[list[p2d.point2D]]):
     best_indiv = population[0]
     for i in range(1, len(population)):
-        if cal_fitness(best_indiv) < cal_fitness(population[i]):
+        if cal_fitness(best_indiv) > cal_fitness(population[i]):
             best_indiv = population[i]
     return best_indiv
 
@@ -75,6 +73,15 @@ def validate(elem : list[p2d.point2D], list_not_sorted : list[p2d.point2D]):
 
     return elem
 
+def sort(population: list[list[p2d.point2D]]):
+    sorted_pop = []
+    while population != []:
+        best_indiv = find_best_indiv(population)
+        population.remove(best_indiv)
+        sorted_pop.append(best_indiv)
+    return sorted_pop
+
+
 solution = []
 instance = p2d.generate_instance(NOMBRE_DE_VILLES)
 
@@ -90,16 +97,22 @@ for i in range(nb_generations):
     for j in range(len(solution)):
         print(p2d.solution_id(solution[j]))
     new_s = []
-    random.shuffle(solution)
-    for j in range(0,int(0.8*len(solution)), 2):
-        child_1, child_2 = croisement(solution[j],solution[j+1])
+    #random.shuffle(solution)
+    solution = sort(solution)
+    for j in range(0,int(0.6*len(solution)), 2):
+        child_1, child_2 = croisement(selection(solution),selection(solution))
         child_1 = validate(child_1, instance)
         child_2 = validate(child_2, instance)
         new_s.append(child_1)
         new_s.append(child_2)
 
     for j in range(int (0.2*len(solution))):
-        new_s.append(mutation(solution[-j-1]))
+        new_s.append(mutation(solution[random.randint(0,len(solution)-1)]))
+
+    j = 0
+    while len(new_s) < len(solution):
+        new_s.append(solution[j])
+        j+=1
 
     solution = new_s
 

@@ -33,8 +33,9 @@ cout0 = p2d.cal_distance(solution)
 
 min_sol=solution
 cout_min_sol=cout0
+i=0
 
-for i in range(100):
+while T > 0.001:
     print('la ',i,'solution = ',p2d.solution_id(solution),' distance totale= ',cout0,' température actuelle =',T)
     T=T*facteur
     for j in range(50):
@@ -52,6 +53,7 @@ for i in range(100):
             if x<np.exp((cout0-cout1)/T):
                 cout0=cout1
                 solution=nouv_sol
+    i+=1
 
 print('voici la solution retenue ',p2d.solution_id(min_sol),' et son coût ', p2d.cal_distance(min_sol))
 
