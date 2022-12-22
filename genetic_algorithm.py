@@ -6,7 +6,7 @@ import point2D as p2d
 NOMBRE_DE_VILLES = 15
 
 #paramètres de l'algorithme génétique
-nb_generations = 100 # nombre de générations
+nb_generations = 1000 # nombre de générations
 nb_individus = 10 # nombre d'individu par génération
 
 def cal_fitness(solution : list[p2d.point2D]):
