@@ -24,6 +24,7 @@ def print_solution(solution : list[point2D]):
             plt.plot([solution[i].x, solution[i+1].x], [solution[i].y, solution[i+1].y], color = "blue")
         else:
             plt.plot([solution[i].x, solution[0].x], [solution[i].y, solution[0].y], color = "blue")
+    plt.show()
 
 def cal_distance(solution : list[point2D]):
     tot_dist = 0

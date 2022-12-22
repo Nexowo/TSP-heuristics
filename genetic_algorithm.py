@@ -1,5 +1,4 @@
 import random
-from matplotlib import pyplot as plt
 import point2D as p2d
 
 # Données du problème (générées aléatoirement)
@@ -121,4 +120,3 @@ for i in range(nb_generations):
         best_indiv = x.copy()
 
 p2d.print_solution(best_indiv)
-plt.show()

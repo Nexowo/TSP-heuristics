@@ -1,6 +1,5 @@
 import random
 import numpy as np
-from matplotlib import pyplot as plt
 import point2D as p2d
 
 # Données du problème (générées aléatoirement)
@@ -58,4 +57,3 @@ while T > 0.001:
 print('voici la solution retenue ',p2d.solution_id(min_sol),' et son coût ', p2d.cal_distance(min_sol))
 
 p2d.print_solution(min_sol)
-plt.show()
