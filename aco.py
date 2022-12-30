@@ -24,4 +24,4 @@ class ant:
 instance = p2d.generate_instance(NOMBRE_DE_VILLES)
 population = []
 for elem in instance:
-    population.append
+    population.append(ant(elem))
