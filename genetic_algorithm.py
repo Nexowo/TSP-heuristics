@@ -85,7 +85,7 @@ solution = []
 instance = p2d.generate_instance(NOMBRE_DE_VILLES)
 
 for _ in range(nb_individus):
-    solution.append(instance.copy())
+    solution.append([*instance])
     random.shuffle(solution[-1])
 
 best_indiv = find_best_indiv(solution)
@@ -117,6 +117,6 @@ for i in range(nb_generations):
 
     x = find_best_indiv(solution)
     if cal_fitness(x) < cal_fitness(best_indiv):
-        best_indiv = x.copy()
+        best_indiv = [*x]
 
 p2d.print_solution(best_indiv)

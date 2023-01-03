@@ -11,7 +11,7 @@ villes = p2d.generate_instance(NOMBRE_DE_VILLES)
 
 
 def voisinage(solution : list[p2d.point2D]):
-    new_solution = solution.copy()
+    new_solution = [*solution]
     a = random.randint(0,len(new_solution)-1)
     b = random.randint(0,len(new_solution)-1)
 
@@ -25,7 +25,7 @@ def voisinage(solution : list[p2d.point2D]):
     return new_solution
 
 ### Initialisation du premier individu
-solution = villes.copy() 
+solution = [*villes]
 random.shuffle(solution)
 cout0 = p2d.cal_distance(solution)
 ###
@@ -34,7 +34,7 @@ min_sol=solution
 cout_min_sol=cout0
 i=0
 
-while T > 0.001:
+while T > 0.1:
     print('la ',i,'solution = ',p2d.solution_id(solution),' distance totale= ',cout0,' température actuelle =',T)
     T=T*facteur
     for j in range(50):
@@ -46,7 +46,7 @@ while T > 0.001:
             solution=nouv_sol
             if cout1<cout_min_sol:
                 cout_min_sol=cout1
-                min_sol=solution.copy()
+                min_sol=[*solution]
         else:
             x=np.random.uniform()
             if x<np.exp((cout0-cout1)/T):

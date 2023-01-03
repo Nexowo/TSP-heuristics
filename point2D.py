@@ -15,6 +15,9 @@ class point2D:
     def dist(self, point : "point2D"):
         return sqrt((point.x - self.x)**2 + (point.y - self.y)**2)
 
+    def __eq__(self, __o: "point2D") -> bool:
+        return __o.id == self.id and __o.x == self.x and __o.y == self.y
+
 def add_point_to_plot(point : point2D):
     plt.plot(point.x, point.y, marker = "o", markersize = 5, markerfacecolor="green")
 
