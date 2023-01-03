@@ -71,6 +71,8 @@ def actualize_pheromones(population : list[ant], pheromones : list[list[float]],
             pheromones[i][j] += 5/f
             pheromones[j][i] += 5/f
 
+    return pheromones
+
 instance = p2d.generate_instance(NOMBRE_DE_VILLES)
 population = []
 for elem in instance:
