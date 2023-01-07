@@ -4,7 +4,10 @@
 Each heuristic can be run by it's own file, the file point2D is a help to implements data visualisation and is mandatory to run the solver.
 The CSV files are instances of the problem randomly generated.
 
-Optimisation :
+#### Optimisation :
+
 Simulated annealing : Very good results
+
 Genetic algorithm : Acceptable results
+
 Ant colony : Bad results, need to be reworked
