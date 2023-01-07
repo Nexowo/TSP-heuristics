@@ -1,5 +1,6 @@
 import random
 import point2D as p2d
+from time import time
 
 # Données du problème (générées aléatoirement)
 NOMBRE_DE_VILLES = 15
@@ -82,13 +83,16 @@ def sort(population: list[list[p2d.point2D]]):
 
 
 solution = []
-instance = p2d.generate_instance(NOMBRE_DE_VILLES)
+# instance = p2d.generate_instance(NOMBRE_DE_VILLES)
+instance = p2d.import_csv("3.csv")
 
 for _ in range(nb_individus):
     solution.append([*instance])
     random.shuffle(solution[-1])
 
 best_indiv = find_best_indiv(solution)
+
+starting_time = time()
 
 for i in range(nb_generations):
     #select = selection(solution, nb_individus)
@@ -118,5 +122,7 @@ for i in range(nb_generations):
     x = find_best_indiv(solution)
     if cal_fitness(x) < cal_fitness(best_indiv):
         best_indiv = [*x]
+
+print (f"Le meilleur individu est {p2d.solution_id(best_indiv)}, fitness = {cal_fitness(best_indiv)}, ex-time = {time()-starting_time}")
 
 p2d.print_solution(best_indiv)

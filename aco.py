@@ -1,6 +1,7 @@
 import point2D as p2d
 import random
 from copy import copy
+from time import time
 
 # Données du problème (générées aléatoirement)
 NOMBRE_DE_VILLES = 15
@@ -40,10 +41,10 @@ class ant:
         proba = [0 for _ in range(len(instance))]
         sum = 0
         for elem in instance:
-            sum += pheromones[self.state[-1].id][elem.id]**self.alpha * self.state[-1].dist(elem)**self.beta
+            sum += 1 + pheromones[self.state[-1].id][elem.id]**self.alpha * self.state[-1].dist(elem)**self.beta
 
         for i in range(len(instance)):
-            proba[i] = (pheromones[self.state[-1].id][instance[i].id]**self.alpha * self.state[-1].dist(instance[i])**self.beta) / sum
+            proba[i] = (1 + pheromones[self.state[-1].id][instance[i].id]**self.alpha * self.state[-1].dist(instance[i])**self.beta) / sum
 
         return proba
             
@@ -89,13 +90,16 @@ def select_best(population : list[ant]):
             best = elem
     return best
 
-instance = p2d.generate_instance(NOMBRE_DE_VILLES)
+#instance = p2d.generate_instance(NOMBRE_DE_VILLES)
+instance = p2d.import_csv("3.csv")
 population : list[ant] = []
 global_best : ant
 for elem in instance:
     population.append(ant(elem, alpha, beta))
 
-pheromones = [[1. for _ in range(len(instance))] for _ in range(len(instance))]
+pheromones = [[.1 for _ in range(len(instance))] for _ in range(len(instance))]
+
+starting_time = time()
 
 for i in range(n_gen):
     for _ in range(len(instance)-1):
@@ -117,5 +121,5 @@ for i in range(n_gen):
     for j in range(len(instance)):
         population[j].reset_it(instance[j])
 
-print("Le meilleur infividu trouvé est {} avec une fitness de {}".format(p2d.solution_id(global_best.get_state()), global_best.cal_fitness()))
+print("Le meilleur individu trouvé est {} avec une fitness de {}, en {} secondes".format(p2d.solution_id(global_best.get_state()), global_best.cal_fitness(), time()-starting_time))
 p2d.print_solution(global_best.get_state())

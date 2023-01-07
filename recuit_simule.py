@@ -1,14 +1,15 @@
 import random
 import numpy as np
 import point2D as p2d
+from time import time
 
 # Données du problème (générées aléatoirement)
 NOMBRE_DE_VILLES = 15
 T = 1000
 facteur = 0.99
 
-villes = p2d.generate_instance(NOMBRE_DE_VILLES)
-
+#villes = p2d.generate_instance(NOMBRE_DE_VILLES)
+villes = p2d.import_csv("3.csv")
 
 def voisinage(solution : list[p2d.point2D]):
     new_solution = [*solution]
@@ -33,6 +34,7 @@ cout0 = p2d.cal_distance(solution)
 min_sol=solution
 cout_min_sol=cout0
 i=0
+starting_time = time()
 
 while T > 0.1:
     print('la ',i,'solution = ',p2d.solution_id(solution),' distance totale= ',cout0,' température actuelle =',T)
@@ -54,6 +56,6 @@ while T > 0.1:
                 solution=nouv_sol
     i+=1
 
-print('voici la solution retenue ',p2d.solution_id(min_sol),' et son coût ', p2d.cal_distance(min_sol))
+print('voici la solution retenue ',p2d.solution_id(min_sol),' et son coût ', p2d.cal_distance(min_sol), ', ex_time = ', time() - starting_time)
 
 p2d.print_solution(min_sol)
