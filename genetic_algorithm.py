@@ -20,11 +20,11 @@ def selection(population : list[list[p2d.point2D]]):
 
     
     rd = random.random()
-    probability = cal_fitness(population[0])/sum_dist
+    probability = (1/cal_fitness(population[0]))/(1/sum_dist)
     i = 0
     while(rd > probability):
         i+=1
-        probability+= cal_fitness(population[i])/sum_dist
+        probability+= (1/cal_fitness(population[i]))/(1/sum_dist)
 
 
     return population[i]
