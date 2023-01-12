@@ -6,9 +6,9 @@ from time import time
 # Données du problème (générées aléatoirement)
 NOMBRE_DE_VILLES = 15
 taux_evap = 0.95
-alpha = 1
-beta = 1
-n_gen = 1000
+alpha = 2
+beta = 2
+n_gen = 100
 
 class ant:
     state : list[p2d.point2D]
@@ -41,10 +41,10 @@ class ant:
         proba = [0 for _ in range(len(instance))]
         sum = 0
         for elem in instance:
-            sum += 1 + pheromones[self.state[-1].id][elem.id]**self.alpha * self.state[-1].dist(elem)**self.beta
+            sum += pheromones[self.state[-1].id][elem.id]**self.alpha * (1/(self.state[-1].dist(elem)**self.beta))
 
         for i in range(len(instance)):
-            proba[i] = (1 + pheromones[self.state[-1].id][instance[i].id]**self.alpha * self.state[-1].dist(instance[i])**self.beta) / sum
+            proba[i] = (pheromones[self.state[-1].id][instance[i].id]**self.alpha * (1/(self.state[-1].dist(instance[i])**self.beta))) / sum
 
         return proba
             
@@ -68,7 +68,7 @@ class ant:
 def actualize_pheromones(population : list[ant], pheromones : list[list[float]], tx_evap : float):
     for i in range(len(pheromones)):
         for j in range(len(pheromones[i])):
-            pheromones[i][j] = (1-tx_evap)*pheromones[i][j]
+            pheromones[i][j] = tx_evap*pheromones[i][j]
     
     for elem in population:
         f = elem.cal_fitness()
@@ -78,8 +78,8 @@ def actualize_pheromones(population : list[ant], pheromones : list[list[float]],
             if j == len(s):
                 j = 0
             
-            pheromones[i][j] += 5/f
-            pheromones[j][i] += 5/f
+            pheromones[i][j] += 1000/f
+            pheromones[j][i] += 1000/f
 
     return pheromones
 
@@ -97,7 +97,7 @@ global_best : ant
 for elem in instance:
     population.append(ant(elem, alpha, beta))
 
-pheromones = [[.1 for _ in range(len(instance))] for _ in range(len(instance))]
+pheromones = [[2 for _ in range(len(instance))] for _ in range(len(instance))]
 
 starting_time = time()
 
