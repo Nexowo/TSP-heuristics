@@ -8,6 +8,8 @@ The CSV files are instances of the problem randomly generated.
 
 Simulated annealing : Very good results
 
-Genetic algorithm : Acceptable results
+Genetic algorithm : Very good results
 
 Ant colony : Bad results, need to be reworked
+
+Particle swarm optimisation : Work in progress
