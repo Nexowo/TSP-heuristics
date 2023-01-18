@@ -1,6 +1,7 @@
 from math import sqrt
 from matplotlib import pyplot as plt
 import random
+import pandas as pd
 
 class point2D:
     x : float
@@ -54,4 +55,21 @@ def generate_instance(nb_ville):
         villes.append(point2D(i, x, y))
         add_point_to_plot(villes[-1])
 
+    return villes
+
+def generate_csv(nb_ville, name_csv):
+    villes = []
+    for i in range(nb_ville):
+        villes.append([i, random.random()*1000, random.random()*1000])
+    
+    df = pd.DataFrame(villes)
+    df.to_csv(name_csv)
+
+def import_csv(name_csv):
+    df = pd.read_csv(name_csv, sep=',')
+    villes = []
+    print(df)
+    for i in range(len(df)):
+        villes.append(point2D(i, df.iat[i,1], df.iat[i,2]))
+        add_point_to_plot(villes[-1])
     return villes
