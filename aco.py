@@ -5,7 +5,7 @@ from time import time
 
 # Données du problème (générées aléatoirement)
 NOMBRE_DE_VILLES = 15
-taux_evap = 0.95
+taux_evap = 0.75
 alpha = 2
 beta = 2
 n_gen = 100
