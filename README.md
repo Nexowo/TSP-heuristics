@@ -12,4 +12,4 @@ Genetic algorithm : Very good results
 
 Ant colony : Bad results, need to be reworked
 
-Particle swarm optimisation : Work in progress
+Particle swarm optimisation : Work in progress, big problem of optimization, may occurence some crashes
