@@ -1,4 +1,4 @@
-# Implementation of 3 heuristics to solve TSP
+# Implementation of 4 heuristics to solve TSP
 ## Author : Jean Maccou
 
 Each heuristic can be run by it's own file, the file point2D is a help to implements data visualisation and is mandatory to run the solver.
